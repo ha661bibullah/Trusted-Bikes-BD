@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+   
+</head>
+<body>
+    
+
+
+<style>
+/* Navigation Bar Styles */
+.navbar {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: var(--secondary-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.dark-mode .navbar {
+    background-color: var(--dark-mode-card);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* ন্যাভবার টগলার স্টাইলিং */
+.navbar-toggler {
+    border: none;
+    padding: 0.25rem 0.5rem;
+    font-size: 1.25rem;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.custom-toggler-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.custom-toggler-icon span {
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: var(--primary-color);
+    border-radius: 2px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .custom-toggler-icon span {
+    background: var(--dark-mode-text);
+}
+
+.custom-toggler-icon span:nth-child(1) {
+    top: 6px;
+}
+
+.custom-toggler-icon span:nth-child(2) {
+    top: 11px;
+}
+
+.custom-toggler-icon span:nth-child(3) {
+    top: 16px;
+}
+
+/* ক্রস অবস্থার জন্য স্টাইল */
+.navbar-toggler[aria-expanded="true"] .custom-toggler-icon span:nth-child(1) {
+    top: 11px;
+    transform: rotate(135deg);
+}
+
+.navbar-toggler[aria-expanded="true"] .custom-toggler-icon span:nth-child(2) {
+    opacity: 0;
+    left: -20px;
+}
+
+.navbar-toggler[aria-expanded="true"] .custom-toggler-icon span:nth-child(3) {
+    top: 11px;
+    transform: rotate(-135deg);
+}
+
+/* ন্যাভবার কলাপ্স এনিমেশন */
+.navbar-collapse {
+    transition: all 0.4s ease;
+}
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        position: fixed;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background-color: var(--secondary-color);
+        padding: 20px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+    }
+    
+    .dark-mode .navbar-collapse {
+        background-color: var(--dark-mode-card);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .navbar-collapse.show {
+        max-height: 500px;
+    }
+    
+    .navbar-nav {
+        padding: 10px 0;
+    }
+    
+    .nav-item {
+        margin: 10px 0;
+    }
+}
+
+/* সার্চ ফর্ম স্টাইল */
+.search-form {
+    position: relative;
+}
+
+.search-form input {
+    padding-right: 40px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.search-form input:focus {
+    box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.25);
+    border-color: #4e73df;
+}
+
+.search-form button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.search-form button:hover {
+    color: #3a5fc8;
+}
+
+.dark-mode .search-form input {
+    background-color: var(--dark-mode-card);
+    border-color: #555;
+    color: var(--dark-mode-text);
+}
+
+/* ব্যবহারকারীর অবস্থা দেখানোর স্টাইল */
+.user-status {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#" onclick="showPage('home')">
+            <i class="fa-solid fa-motorcycle"></i> Trusted Bikes BD
+        </a>
+        <button class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="custom-toggler-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showPage('home')">হোম</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showPage('products')">মোটরবাইক</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showPage('services')">সার্ভিস</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showPage('spare-parts')">স্পেয়ার পার্টস</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showPage('about')">আমাদের সম্পর্কে</a>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center">
+                <div class="search-form me-3">
+                    <input type="text" class="form-control" id="searchInput" placeholder="পণ্য খুঁজুন...">
+                    <button type="button" onclick="performSearch()"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="btn-group me-3">
+                    <button type="button" class="btn btn-outline-secondary" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+                <!-- ব্যবহারকারীর অবস্থা দেখান -->
+                <div class="user-status" id="userStatus">
+                    <i class="fas fa-user-circle me-2"></i>
+                    <span id="userStatusText">অতিথি</span>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary position-relative" onclick="showPage('cart')">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">0</span>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" onclick="handleProfileClick()">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ন্যাভবার টগলার ফাংশনালিটি
+document.addEventListener('DOMContentLoaded', function() {
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+    
+    // টগলার ক্লিক ইভেন্ট
+    navbarToggler.addEventListener('click', function() {
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        
+        // ARIA অ্যাট্রিবিউট আপডেট
+        this.setAttribute('aria-expanded', !isExpanded);
+        
+        // ন্যাভবার কলাপ্স টগল
+        if (isExpanded) {
+            navbarCollapse.classList.remove('show');
+        } else {
+            navbarCollapse.classList.add('show');
+        }
+    });
+    
+    // ন্যাভবার লিঙ্কে ক্লিক করলে মোবাইল মোডে মেনু বন্ধ হয়ে যাবে
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth < 992) {
+                navbarToggler.setAttribute('aria-expanded', 'false');
+                navbarCollapse.classList.remove('show');
+            }
+        });
+    });
+    
+    // উইন্ডো রিসাইজ ইভেন্ট - ডেস্কটপ মোডে গেলে মেনু স্বয়ংক্রিয়ভাবে প্রসারিত রাখা
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 992) {
+            navbarToggler.setAttribute('aria-expanded', 'true');
+            navbarCollapse.classList.add('show');
+        } else {
+            navbarToggler.setAttribute('aria-expanded', 'false');
+            navbarCollapse.classList.remove('show');
+        }
+    });
+    
+    // প্রাথমিক অবস্থা সেট করা
+    if (window.innerWidth >= 992) {
+        navbarToggler.setAttribute('aria-expanded', 'true');
+        navbarCollapse.classList.add('show');
+    } else {
+        navbarToggler.setAttribute('aria-expanded', 'false');
+        navbarCollapse.classList.remove('show');
+    }
+    
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        if (document.body.classList.contains('dark-mode')) {
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    // Check for saved theme preference
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    
+    // ব্যবহারকারীর অবস্থা ট্র্যাক করার ভেরিয়েবল
+    let isLoggedIn = false;
+    let currentUser = null;
+    
+    // পৃষ্ঠা লোড হলে ব্যবহারকারীর অবস্থা চেক করুন
+    checkLoginStatus();
+    
+    // লগইন অবস্থা চেক করার ফাংশন
+    function checkLoginStatus() {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if (userData && userData.isLoggedIn) {
+            isLoggedIn = true;
+            currentUser = userData;
+            updateUserStatus();
+        } else {
+            isLoggedIn = false;
+            currentUser = null;
+            updateUserStatus();
+        }
+    }
+
+    // ব্যবহারকারীর অবস্থা আপডেট করার ফাংশন
+    function updateUserStatus() {
+        const userStatusText = document.getElementById('userStatusText');
+        if (isLoggedIn && currentUser) {
+            userStatusText.textContent = currentUser.name || 'ব্যবহারকারী';
+        } else {
+            userStatusText.textContent = 'অতিথি';
+        }
+    }
+    
+    // প্রোফাইল ক্লিক হ্যান্ডলার
+    window.handleProfileClick = function() {
+        if (isLoggedIn) {
+            // যদি লগইন করা থাকে, প্রোফাইল পৃষ্ঠা দেখান
+            showPage('profile');
+        } else {
+            // যদি লগইন না করা থাকে, লগইন পৃষ্ঠা দেখান
+            showPage('auth');
+        }
+    };
+    
+    // কার্ট ফাংশনালিটি
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartCount = document.getElementById('cartCount');
+    
+    function updateCartCount() {
+        cartCount.textContent = cart.reduce((total, item) => total + item.quantity, 0);
+    }
+    
+    // পেজ লোড হলে কার্ট কাউন্ট আপডেট করুন
+    updateCartCount();
+    
+    // সার্চ ফাংশনালিটি
+    window.performSearch = function() {
+        const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+        
+        if (searchTerm === '') {
+            showNotification('দয়া করে একটি পণ্যের নাম লিখুন');
+            return;
+        }
+        
+        // পণ্য পৃষ্ঠায় যান
+        showPage('products');
+        
+        // পণ্য ফিল্টার করুন
+        setTimeout(() => {
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) || 
+                product.category.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filteredProducts.length === 0) {
+                document.getElementById('productGrid').innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+                        <h4>কোন পণ্য পাওয়া যায়নি</h4>
+                        <p class="text-muted">"${searchTerm}" এর জন্য কোন ফলাফল নেই</p>
+                    </div>
+                `;
+                document.getElementById('pagination').innerHTML = '';
+            } else {
+                // ফিল্টার্ড পণ্য দেখান
+                renderFilteredProducts(filteredProducts);
+                showNotification(`"${searchTerm}" এর জন্য ${filteredProducts.length}টি পণ্য পাওয়া গেছে`);
+            }
+        }, 100);
+    };
+    
+    // Enter কী দিয়ে সার্চ করার সুবিধা
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
+    });
+    
+    // পেজ নেভিগেশন ফাংশন
+    window.showPage = function(pageId) {
+        document.querySelectorAll('.page-section').forEach(page => {
+            page.classList.remove('active');
+        });
+        document.getElementById(pageId).classList.add('active');
+        
+        // Scroll to top
+        window.scrollTo(0, 0);
+        
+        // If cart page, update cart items
+        if (pageId === 'cart') {
+            updateCartPage();
+        }
+        
+        // If checkout page, update checkout items
+        if (pageId === 'checkout') {
+            updateCheckoutPage();
+        }
+    };
+    
+    // নোটিফিকেশন ফাংশন
+    window.showNotification = function(message) {
+        // নোটিফিকেশন দেখানোর লজিক
+        const notification = document.createElement('div');
+        notification.className = 'alert alert-success position-fixed';
+        notification.style.top = '20px';
+        notification.style.right = '20px';
+        notification.style.zIndex = '9999';
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    };
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Products Page -->
+<div id="products" class="page-section">
+    <div class="container">
+        <div class="main-content">
+            <div class="container">
+                <h2 class="section-title">পণ্য তালিকা</h2>
+                
+                <div class="products-header d-flex justify-content-between align-items-center mb-4">
+                    <span class="products-count">১২৮ টি পণ্য</span>
+                    <div class="d-flex align-items-center">
+                        <span class="me-2">কার্ট:</span>
+                        <div class="position-relative">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-grid" id="productGrid">
+                    <!-- পণ্যগুলি JavaScript দিয়ে লোড হবে -->
+                </div>
+
+                
+                <div class="pagination" id="pagination">
+                    <!-- পেজিনেশন বাটনগুলি JavaScript দিয়ে তৈরি হবে -->
+                </div>
+            </div>
+
+            <div class="notification" id="notification">
+                <i class="fas fa-check-circle me-2"></i>
+                <span id="notificationText">পণ্য কার্টে যোগ করা হয়েছে</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* ডেক্সটপে ৫টি */
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+/* ট্যাবলেট ডিভাইসের জন্য স্টাইল (768px - 1199px) */
+@media (max-width: 1199.98px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr); /* ট্যাবলেটে ৩টি */
+    }
+}
+
+/* মোবাইল ডিভাইসের জন্য স্টাইল (576px - 767px) */
+@media (max-width: 767.98px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); /* মোবাইলে ২টি */
+        gap: 15px;
+    }
+}
+
+/* খুব ছোট মোবাইল ডিভাইসের জন্য (575px পর্যন্ত) */
+@media (max-width: 575.98px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); /* খুব ছোট স্ক্রিনেও ২টি */
+        gap: 10px;
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.pagination button {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    background: var(--secondary-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+}
+
+.pagination button.active {
+    background: #6a11cb;
+    color: white;
+    border-color: #6a11cb;
+}
+
+.pagination button:hover:not(.active) {
+    background: #f5f7fa;
+}
+
+/* ডার্ক মোড স্টাইল */
+.dark-mode .pagination button {
+    background-color: var(--dark-mode-card);
+    border-color: #555;
+    color: var(--dark-mode-text);
+}
+
+.dark-mode .pagination button:hover:not(.active) {
+    background: #3a3d41;
+}
+
+/* Existing product-grid styles remain the same for larger screens */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* ডেক্সটপে ৫টি */
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+/* ট্যাবলেট ডিভাইসের জন্য স্টাইল (768px - 1199px) */
+@media (max-width: 1199.98px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr); /* ট্যাবলেটে ৩টি */
+    }
+}
+
+/* মোবাইল ডিভাইসের জন্য স্টাইল (576px - 767px) */
+@media (max-width: 767.98px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); /* মোবাইলে ২টি */
+        gap: 15px;
+    }
+}
+
+/* খুব ছোট মোবাইল ডিভাইসের জন্য (575px পর্যন্ত) */
+@media (max-width: 575.98px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); /* খুব ছোট স্ক্রিনেও ২টি */
+        gap: 10px;
+    }
+}
+
+/* Existing product-listing-card styles */
+.product-listing-card {
+    background: var(--secondary-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.dark-mode .product-listing-card {
+    background-color: var(--dark-mode-card);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.product-listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .product-listing-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Updated product-image styles to show full image without cropping */
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: contain; /* Changed from 'cover' to 'contain' to show full image */
+    border-bottom: 1px solid #eee;
+    background-color: #f8f9fa; /* Added background for images with transparency */
+    padding: 10px; /* Added padding to ensure image doesn't touch edges */
+}
+
+.dark-mode .product-image {
+    border-bottom: 1px solid #444;
+    background-color: #2c2f33; /* Dark mode background */
+}
+
+.product-info {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-category {
+    color: #6a11cb;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.product-name {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.dark-mode .product-name {
+    color: #ddd;
+}
+
+.product-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.dark-mode .product-price {
+    color: #ccc;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.product-stock {
+    font-size: 14px;
+    margin-bottom: 15px;
+    color: #27ae60;
+}
+
+.out-of-stock {
+    color: #e74c3c;
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 10px;
+    background: #6a11cb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    margin-top: auto; /* Push button to bottom of card */
+}
+
+.add-to-cart:hover {
+    background: #2575fc;
+}
+
+/* Fix cart item images to show full image without cropping */
+.item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain; /* Changed from cover to contain */
+    border-radius: 5px;
+    margin-right: 15px;
+    background-color: #f8f9fa; /* Add background for transparent images */
+    padding: 5px;
+}
+
+.dark-mode .item-image {
+    background-color: #2c2f33;
+}
+
+/* Ensure two items per row in mobile mode */
+@media (max-width: 576px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px;
+    }
+    
+    .product-listing-card {
+        margin-bottom: 0;
+    }
+    
+    /* Adjust cart item layout for mobile */
+    .cart-item {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .item-image {
+        width: 80px;
+        height: 80px;
+        margin-right: 10px;
+    }
+    
+    .item-details {
+        flex-grow: 1;
+    }
+}
+
+/* Additional adjustments for very small screens */
+@media (max-width: 380px) {
+    .product-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .item-image {
+        width: 70px;
+        height: 70px;
+    }
+}
+</style>
+
+<script>
+// পণ্য ডেটা
+const products = [
+    {
+        id: 1,
+        name: "Yamaha R15 V4",
+        category: "Motorbike",
+        price: 580000,
+        image: "/Shopping.com/images/160_4v_price_desk.webp",
+        rating: 5,
+        reviews: 48,
+        stock: "In Stock",
+        brand: "Yamaha",
+        engine: "155cc, Liquid-cooled, 4-stroke, SOHC",
+        power: "18.6 PS @ 10000 RPM",
+        torque: "14.1 Nm @ 7500 RPM",
+        transmission: "6-speed",
+        fuelSystem: "Fuel Injection",
+        mileage: "40-45 kmpl",
+        topSpeed: "136 km/h",
+        features: ["LED Headlights", "Digital Instrument Cluster", "ABS", "Slipper Clutch"],
+        colors: ["Racing Blue", "Dark Knight", "Metallic Red"],
+        description: "Yamaha R15 V4 হল একটি হাই-পারফরমেন্স স্পোর্টস বাইক যা ট্র্যাক এবং রাস্তা উভয় ক্ষেত্রেই অসাধারন পারফরম্যান্স প্রদান করে।"
+    },
+    {
+        id: 2,
+        name: "Honda CBR 150R",
+        category: "Motorbike",
+        price: 600000,
+        image: "/Shopping.com/images/pngegg.png",
+        rating: 4,
+        reviews: 38,
+        stock: "In Stock",
+        brand: "Honda",
+        engine: "149.16cc, Liquid-cooled, 4-stroke, DOHC",
+        power: "17.1 PS @ 9000 RPM",
+        torque: "14.4 Nm @ 7000 RPM",
+        transmission: "6-speed",
+        fuelSystem: "PGM-FI",
+        mileage: "35-40 kmpl",
+        topSpeed: "130 km/h",
+        features: ["Full LED Lighting", "Digital Meter", "ABS", "Pro-Link Monoshock"],
+        colors: ["Grand Prix Red", "Matte Axis Gray Metallic", "Pearl Horizon White"],
+        description: "Honda CBR 150R হল একটি স্পোর্টি মোটরসাইকেল যা শহুরে রাস্তা এবং হাইওয়ে উভয় ক্ষেত্রেই চমৎকার পারফরম্যান্স প্রদান করে।"
+    },
+    {
+        id: 3,
+        name: "Bajaj Pulsar NS160",
+        category: "Motorbike",
+        price: 295000,
+        image: "/Shopping.com/images/suzukigixxersfrightsideview.webp",
+        rating: 4,
+        reviews: 56,
+        stock: "In Stock",
+        brand: "Bajaj",
+        engine: "160.3cc, Air-cooled, 4-stroke, SOHC",
+        power: "15.5 PS @ 8500 RPM",
+        torque: "14.6 Nm @ 6500 RPM",
+        transmission: "5-speed",
+        fuelSystem: "Carburetor",
+        mileage: "45-50 kmpl",
+        topSpeed: "114 km/h",
+        features: ["Nitrox Mono Shock", "Perimeter Frame", "Digital Console", "Tubeless Tyres"],
+        colors: ["Red", "Blue", "Black"],
+        description: "Bajaj Pulsar NS160 হল একটি স্টাইলিশ এবং পারফরম্যান্স ওরিয়েন্টেড নেকেড স্পোর্টস বাইক।"
+    },
+    {
+        id: 4,
+        name: "Suzuki Gixxer SF 155",
+        category: "Motorbike",
+        price: 345000,
+        image: "/Shopping.com/images/VqmhwCBO1iWmf3KuSnimxy1v23yfMUy4sIteYWDV.png",
+        rating: 5,
+        reviews: 29,
+        stock: "In Stock",
+        brand: "Suzuki",
+        engine: "155cc, Oil-cooled, 4-stroke, SOHC",
+        power: "13.6 PS @ 8000 RPM",
+        torque: "13.8 Nm @ 6000 RPM",
+        transmission: "5-speed",
+        fuelSystem: "Fuel Injection",
+        mileage: "50-55 kmpl",
+        topSpeed: "118 km/h",
+        features: ["Full Fairing", "LED Headlamps", "Digital Instrument Cluster", "SEP Engine"],
+        colors: ["Metallic Triton Blue", "Glass Sparkle Black", "Pearl Mirage White"],
+        description: "Suzuki Gixxer SF 155 হল একটি ফুলি ফেয়ার্ড স্পোর্টস বাইক যা ফুয়েল এফিসিয়েন্সি এবং স্টাইলের জন্য পরিচিত।"
+    },
+    {
+        id: 5,
+        name: "TVS Apache RTR 160 4V",
+        category: "Motorbike",
+        price: 285000,
+        image: "/Shopping.com/images/yamaha-yzf-r15-v3-dual-channel-abs--bs-vi20200109152444.avif",
+        rating: 4,
+        reviews: 41,
+        stock: "In Stock",
+        brand: "TVS",
+        engine: "159.7cc, Oil-cooled, 4-stroke, SOHC",
+        power: "16.1 PS @ 8000 RPM",
+        torque: "14.8 Nm @ 6500 RPM",
+        transmission: "5-speed",
+        fuelSystem: "Fuel Injection",
+        mileage: "45-50 kmpl",
+        topSpeed: "120 km/h",
+        features: ["Race Tuned Fuel Injection", "Glide Through Technology", "Digital Speedometer", "ABS"],
+        colors: ["Red", "Blue", "Black"],
+        description: "TVS Apache RTR 160 4V হল একটি রেসিং ইনস্পায়ার্ড বাইক যা রেস ট্র্যাক পারফরম্যান্স অফার করে।"
+    },
+    {
+        id: 6,
+        name: "Hero Hunk 150R",
+        category: "Motorbike",
+        price: 210000,
+        image: "/Shopping.com/images/suzukigixxersfrightsideview.webp",
+        rating: 4,
+        reviews: 34,
+        stock: "In Stock",
+        brand: "Hero",
+        engine: "149.2cc, Air-cooled, 4-stroke, SOHC",
+        power: "13.6 PS @ 8000 RPM",
+        torque: "12.8 Nm @ 6500 RPM",
+        transmission: "5-speed",
+        fuelSystem: "Carburetor",
+        mileage: "50-55 kmpl",
+        topSpeed: "110 km/h",
+        features: ["Aggressive Styling", "Digital Analog Console", "Tubeless Tyres", "Aerodynamic Body"],
+        colors: ["Sports Red", "Black", "Grey"],
+        description: "Hero Hunk 150R হল একটি মাসকুলার এবং এগ্রেসিভ লুকিং বাইক যা শহুরে রাইডিং এর জন্য উপযোগী।"
+    },
+    {
+        id: 7,
+        name: "KTM Duke 125",
+        category: "Motorbike",
+        price: 520000,
+        image: "/Shopping.com/images/160_4v_price_desk.webp",
+        rating: 5,
+        reviews: 26,
+        stock: "Limited Stock",
+        brand: "KTM",
+        engine: "124.7cc, Liquid-cooled, 4-stroke, SOHC",
+        power: "14.5 PS @ 9250 RPM",
+        torque: "12 Nm @ 8000 RPM",
+        transmission: "6-speed",
+        fuelSystem: "Fuel Injection",
+        mileage: "35-40 kmpl",
+        topSpeed: "120 km/h",
+        features: ["Trellis Frame", "WP Suspension", "LED Lighting", "Digital Instrument Cluster"],
+        colors: ["Orange", "Black", "White"],
+        description: "KTM Duke 125 হল একটি প্রিমিয়াম নেকেড স্পোর্টস বাইক যা KTM এর রেসিং হেরিটেজ প্রতিফলিত করে।"
+    },
+    {
+        id: 8,
+        name: "Honda Hornet 160R",
+        category: "Motorbike",
+        price: 310000,
+        image: "/Shopping.com/images/yamaha-yzf-r15-v3-dual-channel-abs--bs-vi20200109152444.avif",
+        rating: 4,
+        reviews: 32,
+        stock: "In Stock",
+        brand: "Honda",
+        engine: "162.7cc, Air-cooled, 4-stroke, SOHC",
+        power: "15.1 PS @ 8500 RPM",
+        torque: "14.5 Nm @ 6500 RPM",
+        transmission: "5-speed",
+        fuelSystem: "PGM-FI",
+        mileage: "45-50 kmpl",
+        topSpeed: "114 km/h",
+        features: ["LED Tail Light", "Digital Console", "Diamond Type Frame", "Tubeless Tyres"],
+        colors: ["Pearl Igneous Black", "Matte Marshal Red", "Matte Selene Silver"],
+        description: "Honda Hornet 160R হল একটি স্টাইলিশ এবং রোবাস্ট স্ট্রিটফাইটার বাইক যা শহুরে রাইডিং এর জন্য পারফেক্ট।"
+    },
+    {
+        id: 9,
+        name: "Yamaha MT-15",
+        category: "Motorbike",
+        price: 475000,
+        image: "/Shopping.com/images/pngegg.png",
+        rating: 4,
+        reviews: 42,
+        stock: "In Stock",
+        brand: "Yamaha",
+        engine: "155cc, Liquid-cooled, 4-stroke, SOHC",
+        power: "18.6 PS @ 10000 RPM",
+        torque: "14.1 Nm @ 7500 RPM",
+        transmission: "6-speed",
+        fuelSystem: "Fuel Injection",
+        mileage: "40-45 kmpl",
+        topSpeed: "130 km/h",
+        features: ["Deltabox Frame", "LED Headlight", "Digital Meter", "ABS"],
+        colors: ["Metallic Black", "Racing Blue", "Ice Fluo Vermillion"],
+        description: "Yamaha MT-15 হল একটি নেকেড স্ট্রিটফাইটার বাইক যা R15 প্ল্যাটফর্ম ভাগ করে এবং এগ্রেসিভ স্টাইলিং অফার করে।"
+    },
+    {
+        id: 10,
+        name: "Royal Enfield Classic 350",
+        category: "Motorbike",
+        price: 350000,
+        image: "/Shopping.com/images/VqmhwCBO1iWmf3KuSnimxy1v23yfMUy4sIteYWDV.png",
+        rating: 5,
+        reviews: 67,
+        stock: "In Stock",
+        brand: "Royal Enfield",
+        engine: "346cc, Air-cooled, 4-stroke, SOHC",
+        power: "19.1 PS @ 5250 RPM",
+        torque: "28 Nm @ 4000 RPM",
+        transmission: "5-speed",
+        fuelSystem: "Fuel Injection",
+        mileage: "35-40 kmpl",
+        topSpeed: "110 km/h",
+        features: ["Vintage Styling", "Tripper Navigation", "Disc Brakes", "Classic Thump"],
+        colors: ["Gunmetal Grey", "Black", "Desert Sand", "Signals"],
+        description: "Royal Enfield Classic 350 হল একটি আইকনিক রেট্রো-স্টাইল ক্রুজার বাইক যা ঐতিহ্য এবং আধুনিকতার মিশ্রণ।"
+    },
+    {
+        id: 11,
+        name: "Bajaj Dominar 400",
+        category: "Motorbike",
+        price: 415000,
+        image: "/Shopping.com/images/160_4v_price_desk.webp",
+        rating: 4,
+        reviews: 38,
+        stock: "In Stock",
+        brand: "Bajaj",
+        engine: "373.3cc, Liquid-cooled, 4-stroke, DOHC",
+        power: "39.5 PS @ 8650 RPM",
+        torque: "35 Nm @ 7000 RPM",
+        transmission: "6-speed",
+        fuelSystem: "Fuel Injection",
+        mileage: "25-30 kmpl",
+        topSpeed: "150 km/h",
+        features: ["Dual Channel ABS", "LED Headlamps", "Digital Instrument Cluster", "Slipper Clutch"],
+        colors: ["Aurora Green", "Racing Red", "Ebony Black"],
+        description: "Bajaj Dominar 400 হল একটি পাওয়ারফুল স্পোর্টস টুরার বাইক যা লং ড্রাইভ এবং পারফরম্যান্স রাইডিং এর জন্য উপযোগী।"
+    },
+    {
+        id: 12,
+        name: "KTM RC 200",
+        category: "Motorbike",
+        price: 485000,
+        image: "/Shopping.com/images/yamaha-yzf-r15-v3-dual-channel-abs--bs-vi20200109152444.avif",
+        rating: 5,
+        reviews: 29,
+        stock: "Limited Stock",
+        brand: "KTM",
+        engine: "199.5cc, Liquid-cooled, 4-stroke, DOHC",
+        power: "25 PS @ 10000 RPM",
+        torque: "19.2 Nm @ 8000 RPM",
+        transmission: "6-speed",
+        fuelSystem: "Fuel Injection",
+        mileage: "30-35 kmpl",
+        topSpeed: "140 km/h",
+        features: ["Split Trellis Frame", "WP Suspension", "LED Headlights", "TFT Display"],
+        colors: ["Orange", "Black", "Blue"],
+        description: "KTM RC 200 হল একটি ফুলি ফেয়ার্ড স্পোর্টস বাইক যা ট্র্যাক ডে এবং পারফরম্যান্স রাইডিং এর জন্য ডিজাইন করা হয়েছে।"
+    }
+];
+
+// পেজিনেশন ভেরিয়েবল
+let currentPage = 1;
+const productsPerPage = 10; // প্রতি পৃষ্ঠায় ১০টি প্রোডাক্ট
+
+// পণ্য লোড ফাংশন - পেজিনেশন সহ
+function loadProducts(page) {
+    const productGrid = document.getElementById('productGrid');
+    productGrid.innerHTML = '';
+    
+    const startIndex = (page - 1) * productsPerPage;
+    const endIndex = Math.min(startIndex + productsPerPage, products.length);
+    
+    for (let i = startIndex; i < endIndex; i++) {
+        const product = products[i];
+        const stars = '★'.repeat(product.rating) + '☆'.repeat(5 - product.rating);
+        
+        productGrid.innerHTML += `
+            <div class="product-listing-card">
+                <img src="${product.image}" class="product-image" alt="${product.name}">
+                <div class="product-info">
+                    <div class="product-category">${product.category}</div>
+                    <h3 class="product-name">${product.name}</h3>
+                    <div class="product-price">৳ ${product.price.toLocaleString('bn-BD')}</div>
+                    <div class="product-rating">
+                        <span class="stars">${stars}</span>
+                        <span>(${product.reviews} reviews)</span>
+                    </div>
+                    <div class="product-stock">${product.stock}</div>
+                    <button class="add-to-cart" onclick="addToCart('${product.name}', ${product.price}, '${product.image}')">কার্টে যোগ করুন</button>
+                    <button class="btn btn-outline-secondary mt-2" onclick="showBikeDetails(${product.id})">
+                        বিস্তারিত দেখুন
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+    
+    updatePagination();
+    updateCartCount();
+}
+
+// পেজিনেশন আপডেট ফাংশন
+function updatePagination() {
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+    
+    const totalPages = Math.ceil(products.length / productsPerPage);
+    
+    // পূর্ববর্তী বাটন
+    if (currentPage > 1) {
+        pagination.innerHTML += `<button onclick="changePage(${currentPage - 1})">← পূর্ববর্তী</button>`;
+    }
+    
+    // পেজ নম্বর বাটন
+    const startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, startPage + 4);
+    
+    for (let i = startPage; i <= endPage; i++) {
+        pagination.innerHTML += `<button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+    }
+    
+    // পরবর্তী বাটন
+    if (currentPage < totalPages) {
+        pagination.innerHTML += `<button onclick="changePage(${currentPage + 1})">পরবর্তী →</button>`;
+    }
+}
+
+// পেজ পরিবর্তন ফাংশন
+function changePage(page) {
+    currentPage = page;
+    loadProducts(currentPage);
+    window.scrollTo(0, 0);
+}
+
+// বর্তমানে নির্বাচিত বাইক ট্র্যাক করতে
+let currentBike = null;
+
+// বাইক ডিটেলস দেখানোর ফাংশন
+function showBikeDetails(bikeId) {
+    // বাইক খুঁজুন
+    const bike = products.find(product => product.id === bikeId);
+    if (!bike) return;
+    
+    currentBike = bike;
+    
+    // বাইক তথ্য পূরণ করুন
+    document.getElementById('bikeName').textContent = bike.name;
+    document.getElementById('bikePrice').textContent = `৳ ${bike.price.toLocaleString('bn-BD')}`;
+    document.getElementById('bikeRating').textContent = '★'.repeat(bike.rating) + '☆'.repeat(5 - bike.rating);
+    document.getElementById('bikeReviews').textContent = `(${bike.reviews} reviews)`;
+    document.getElementById('bikeDescription').textContent = bike.description;
+    document.getElementById('bikeStock').textContent = bike.stock;
+    document.getElementById('bikeBrand').textContent = bike.brand;
+    document.getElementById('bikeEngine').textContent = bike.engine;
+    document.getElementById('bikePower').textContent = bike.power;
+    document.getElementById('bikeTorque').textContent = bike.torque;
+    document.getElementById('bikeTransmission').textContent = bike.transmission;
+    document.getElementById('bikeMileage').textContent = bike.mileage;
+    document.getElementById('bikeTopSpeed').textContent = bike.topSpeed;
+    document.getElementById('bikeColors').textContent = bike.colors.join(', ');
+    
+    // প্রধান ছবি সেট করুন
+    document.getElementById('bikeMainImage').src = bike.image;
+    
+    // থাম্বনেইল কন্টেইনার খালি করুন
+    const thumbnailContainer = document.querySelector('.thumbnail-container');
+    thumbnailContainer.innerHTML = '';
+    
+    // থাম্বনেইল যোগ করুন (একই ছবি ব্যবহার করে, কিন্তু বাস্তবে বিভিন্ন এঙ্গেলের ছবি থাকতে পারে)
+    const thumbnail = document.createElement('img');
+    thumbnail.src = bike.image;
+    thumbnail.className = 'thumbnail active';
+    thumbnail.alt = 'Thumbnail';
+    thumbnail.onclick = function() {
+        document.getElementById('bikeMainImage').src = bike.image;
+        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+    };
+    thumbnailContainer.appendChild(thumbnail);
+    
+    // ফিচার লিস্ট পূরণ করুন
+    const featuresList = document.getElementById('bikeFeatures');
+    featuresList.innerHTML = '';
+    
+    bike.features.forEach(feature => {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+        listItem.innerHTML = `<i class="fas fa-check-circle text-success me-2"></i> ${feature}`;
+        featuresList.appendChild(listItem);
+    });
+    
+    // বাইক ডিটেলস পৃষ্ঠা দেখান
+    showPage('bike-details');
+}
+
+// বাইক কার্টে যোগ করার ফাংশন
+function addBikeToCart() {
+    if (!currentBike) return;
+    addToCart(currentBike.name, currentBike.price, currentBike.image);
+}
+
+// এখনই কিনুন ফাংশন
+function buyBikeNow() {
+    if (!currentBike) return;
+    addBikeToCart();
+    showPage('cart');
+}
+
+// কার্ট ফাংশনালিটি
+function updateCartCount() {
+    const cartCount = document.getElementById('cartCount');
+    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+    cartCount.textContent = totalItems;
+}
+
+function addToCart(name, price, image) {
+    const existingItem = cart.find(item => item.name === name);
+    
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            name,
+            price,
+            image,
+            quantity: 1
+        });
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    
+    // নোটিফিকেশন দেখান
+    showNotification(`${name} কার্টে যোগ করা হয়েছে`);
+}
+
+// নোটিফিকেশন ফাংশন
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    const notificationText = document.getElementById('notificationText');
+    notificationText.textContent = message;
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
+}
+
+// পেজ লোড হলে প্রোডাক্ট লোড করুন
+document.addEventListener('DOMContentLoaded', function() {
+    loadProducts(currentPage);
+});
+</script>
+
+
+
+
+
+
+
+<!-- Bike Details Page -->
+<div id="bike-details" class="page-section">
+    <div class="container">
+        <button class="btn btn-outline-primary mb-4" onclick="showPage('products')">
+            <i class="fas fa-arrow-left me-2"></i>পণ্য তালিকায় ফিরে যান
+        </button>
+        
+        <div class="product-container">
+            <div class="row">
+                <div class="col-md-6 product-gallery">
+                    <img src="" class="main-image" alt="বাইক" id="bikeMainImage">
+                    <div class="thumbnail-container">
+                        <!-- থাম্বনেইলগুলি ডায়নামিকভাবে যোগ হবে -->
+                    </div>
+                </div>
+                <div class="col-md-6 product-info-detail">
+                    <h1 class="product-title" id="bikeName"></h1>
+                    <div class="product-price-detail" id="bikePrice"></div>
+                    <div class="product-rating-detail">
+                        <span class="rating-stars" id="bikeRating"></span>
+                        <span id="bikeReviews"></span>
+                    </div>
+                    <p class="product-description" id="bikeDescription"></p>
+                    <div class="stock-status in-stock" id="bikeStock"></div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn-add-to-cart" onclick="addBikeToCart()">
+                            <i class="fas fa-shopping-cart me-2"></i>কার্টে যোগ করুন
+                        </button>
+                        <button class="btn-buy-now" onclick="buyBikeNow()">
+                            <i class="fas fa-bolt me-2"></i>এখনই কিনুন
+                        </button>
+                    </div>
+                    
+                   <div class="product-meta">
+    <p><strong>ব্র্যান্ড:</strong> <span id="bikeBrand"></span></p>
+    <p><strong>ইঞ্জিন:</strong> <span id="bikeEngine"></span></p>
+    <p><strong>পাওয়ার:</strong> <span id="bikePower"></span></p>
+    <p><strong>টর্ক:</strong> <span id="bikeTorque"></span></p>
+    <p><strong>ট্রান্সমিশন:</strong> <span id="bikeTransmission"></span></p>
+    <p><strong>মাইলেজ:</strong> <span id="bikeMileage"></span></p>
+    <p><strong>টপ স্পিড:</strong> <span id="bikeTopSpeed"></span></p>
+    <p><strong>রং:</strong> <span id="bikeColors"></span></p>
+</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="reviews-section mt-5">
+            <h2 class="section-title">বাইক ফিচারস</h2>
+            <ul class="list-group" id="bikeFeatures">
+                <!-- ফিচারগুলি ডায়নামিকভাবে যোগ হবে -->
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    // বাইক ডিটেলস দেখানোর ফাংশন
+    function showBikeDetails(bikeId) {
+        // বাইক খুঁজুন
+        const bike = products.find(product => product.id === bikeId);
+        if (!bike) return;
+        
+        currentBike = bike;
+        
+        // বাইক তথ্য পূরণ করুন
+        document.getElementById('bikeName').textContent = bike.name;
+        document.getElementById('bikePrice').textContent = `৳ ${bike.price.toLocaleString('bn-BD')}`;
+        document.getElementById('bikeRating').textContent = '★'.repeat(bike.rating) + '☆'.repeat(5 - bike.rating);
+        document.getElementById('bikeReviews').textContent = `(${bike.reviews} reviews)`;
+        document.getElementById('bikeDescription').textContent = bike.description;
+        document.getElementById('bikeStock').textContent = bike.stock;
+        document.getElementById('bikeBrand').textContent = bike.brand;
+        document.getElementById('bikeEngine').textContent = bike.engine;
+        document.getElementById('bikePower').textContent = bike.power;
+        document.getElementById('bikeTorque').textContent = bike.torque;
+        document.getElementById('bikeTransmission').textContent = bike.transmission;
+        document.getElementById('bikeMileage').textContent = bike.mileage;
+        document.getElementById('bikeTopSpeed').textContent = bike.topSpeed;
+        document.getElementById('bikeColors').textContent = bike.colors.join(', ');
+        
+        // প্রধান ছবি সেট করুন
+        document.getElementById('bikeMainImage').src = bike.image;
+        
+        // থাম্বনেইল কন্টেইনার খালি করুন
+        const thumbnailContainer = document.querySelector('.thumbnail-container');
+        thumbnailContainer.innerHTML = '';
+        
+        // থাম্বনেইল যোগ করুন (একই ছবি ব্যবহার করে, কিন্তু বাস্তবে বিভিন্ন এঙ্গেলের ছবি থাকতে পারে)
+        const thumbnail = document.createElement('img');
+        thumbnail.src = bike.image;
+        thumbnail.className = 'thumbnail active';
+        thumbnail.alt = 'Thumbnail';
+        thumbnail.onclick = function() {
+            document.getElementById('bikeMainImage').src = bike.image;
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+        };
+        thumbnailContainer.appendChild(thumbnail);
+        
+        // ফিচার লিস্ট পূরণ করুন
+        const featuresList = document.getElementById('bikeFeatures');
+        featuresList.innerHTML = '';
+        
+        bike.features.forEach(feature => {
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item';
+            listItem.innerHTML = `<i class="fas fa-check-circle text-success me-2"></i> ${feature}`;
+            featuresList.appendChild(listItem);
+        });
+        
+        // বাইক ডিটেলস পৃষ্ঠা দেখান
+        showPage('bike-details');
+    }
+
+    // বাইক কার্টে যোগ করার ফাংশন
+    function addBikeToCart() {
+        if (!currentBike) return;
+        addToCart(currentBike.name, currentBike.price, currentBike.image);
+    }
+
+    // এখনই কিনুন ফাংশন
+    function buyBikeNow() {
+        if (!currentBike) return;
+        addBikeToCart();
+        showPage('cart');
+    }
+
+    // পণ্য তালিকা আপডেট করুন - বিস্তারিত বাটন যোগ করুন
+    function loadProducts(page) {
+        const productGrid = document.getElementById('productGrid');
+        productGrid.innerHTML = '';
+        
+        const startIndex = (page - 1) * productsPerPage;
+        const endIndex = Math.min(startIndex + productsPerPage, products.length);
+        
+        for (let i = startIndex; i < endIndex; i++) {
+            const product = products[i];
+            const stars = '★'.repeat(product.rating) + '☆'.repeat(5 - product.rating);
+            
+            productGrid.innerHTML += `
+                <div class="product-listing-card">
+                    <img src="${product.image}" class="product-image" alt="${product.name}">
+                    <div class="product-info">
+                        <div class="product-category">${product.category}</div>
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="product-price">৳ ${product.price.toLocaleString('bn-BD')}</div>
+                        <div class="product-rating">
+                            <span class="stars">${stars}</span>
+                            <span>(${product.reviews} reviews)</span>
+                        </div>
+                        <div class="product-stock">${product.stock}</div>
+                        <button class="add-to-cart" onclick="addToCart('${product.name}', ${product.price}, '${product.image}')">কার্টে যোগ করুন</button>
+                        <button class="btn btn-outline-secondary mt-2" onclick="showBikeDetails(${product.id})">
+                            বিস্তারিত দেখুন
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        updatePagination();
+        updateCartCount();
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
